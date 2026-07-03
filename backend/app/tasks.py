@@ -426,13 +426,29 @@ def broadcast_audio_progress(
     error_message: str = None
 ):
     payload = {
+        "user_id": user_id,
         "audio_job_id": audio_job_id,
         "progress": progress,
         "status": status,
         "result_url": result_url,
         "error_message": error_message
     }
-    redis_client.publish(f"user_renders_ws_{user_id}", json.dumps(payload))
+    try:
+        redis_client.publish("render_progress", json.dumps(payload))
+    except Exception as e:
+        logger.warning(f"Failed publishing audio progress to Redis: {e}")
+        
+    try:
+        from .services.ws_manager import ws_manager
+        import asyncio
+        try:
+            loop = asyncio.get_running_loop()
+            if loop.is_running():
+                asyncio.create_task(ws_manager.send_to_client(str(user_id), payload))
+        except RuntimeError:
+            asyncio.run(ws_manager.send_to_client(str(user_id), payload))
+    except Exception as ws_err:
+        logger.warning(f"Direct Audio WebSocket broadcast fallback failed: {ws_err}")
 
 @shared_task(name="app.tasks.process_audio_task")
 def process_audio_task(job_id: int):
@@ -569,13 +585,29 @@ def broadcast_training_progress(
     error_message: str = None
 ):
     payload = {
+        "user_id": user_id,
         "fine_tuning_job_id": ft_job_id,
         "progress": progress,
         "status": status,
         "metrics": metrics,
         "error_message": error_message
     }
-    redis_client.publish(f"user_renders_ws_{user_id}", json.dumps(payload))
+    try:
+        redis_client.publish("render_progress", json.dumps(payload))
+    except Exception as e:
+        logger.warning(f"Failed publishing fine-tuning progress to Redis: {e}")
+        
+    try:
+        from .services.ws_manager import ws_manager
+        import asyncio
+        try:
+            loop = asyncio.get_running_loop()
+            if loop.is_running():
+                asyncio.create_task(ws_manager.send_to_client(str(user_id), payload))
+        except RuntimeError:
+            asyncio.run(ws_manager.send_to_client(str(user_id), payload))
+    except Exception as ws_err:
+        logger.warning(f"Direct MLOps WebSocket broadcast fallback failed: {ws_err}")
 
 @shared_task(name="app.tasks.run_fine_tuning_task")
 def run_fine_tuning_task(job_id: int):

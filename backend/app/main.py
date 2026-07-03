@@ -324,6 +324,7 @@ def list_assets(
 @app.post(f"{settings.API_V1_STR}/renders/trigger", response_model=schemas.RenderJobResponse, status_code=status.HTTP_201_CREATED, dependencies=[Depends(rate_limiter)])
 def trigger_render(
     job_in: schemas.RenderJobCreate,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
@@ -366,11 +367,12 @@ def trigger_render(
     db.commit()
     db.refresh(new_job)
 
-    # Dispatch to Celery — graceful fallback if broker (Redis) is unavailable
+    # Dispatch to Celery — fallback to FastAPI BackgroundTasks if broker (Redis) is unavailable
     try:
         tasks.render_video_task.delay(new_job.id)
     except Exception as e:
-        logger.warning(f"Celery broker unavailable — render job {new_job.id} queued in DB only: {e}")
+        logger.warning(f"Celery broker unavailable — falling back to FastAPI BackgroundTasks for job {new_job.id}: {e}")
+        background_tasks.add_task(tasks.render_video_task, None, new_job.id)
 
     # Broadcast initial queued progress — graceful fallback
     try:
@@ -424,7 +426,12 @@ def cancel_render(job_id: int, db: Session = Depends(get_db), current_user: mode
     return job
 
 @app.post(f"{settings.API_V1_STR}/renders/{{job_id}}/retry", response_model=schemas.RenderJobResponse)
-def retry_render(job_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_active_user)):
+def retry_render(
+    job_id: int,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(auth.get_current_active_user)
+):
     """Retry a failed or cancelled generation job."""
     job = db.query(models.RenderJob).filter(models.RenderJob.id == job_id, models.RenderJob.user_id == current_user.id).first()
     if not job:
@@ -443,7 +450,8 @@ def retry_render(job_id: int, db: Session = Depends(get_db), current_user: model
     try:
         tasks.render_video_task.delay(job.id)
     except Exception as e:
-        logger.warning(f"Celery broker unavailable — render retry job {job.id} queued in DB only: {e}")
+        logger.warning(f"Celery broker unavailable — falling back to FastAPI BackgroundTasks for job retry {job.id}: {e}")
+        background_tasks.add_task(tasks.render_video_task, None, job.id)
     
     try:
         from .tasks import broadcast_progress
@@ -584,6 +592,7 @@ def delete_storyboard(
 @app.post(f"{settings.API_V1_STR}/storyboards/{{storyboard_id}}/render", response_model=schemas.StoryboardResponse)
 def trigger_storyboard_render(
     storyboard_id: int,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
@@ -597,7 +606,11 @@ def trigger_storyboard_render(
     db.commit()
     db.refresh(sb)
     
-    tasks.render_storyboard_task.delay(sb.id)
+    try:
+        tasks.render_storyboard_task.delay(sb.id)
+    except Exception as e:
+        logger.warning(f"Celery broker unavailable — falling back to FastAPI BackgroundTasks for storyboard render {sb.id}: {e}")
+        background_tasks.add_task(tasks.render_storyboard_task, sb.id)
     return sb
 
 # --- SCENES & SHOTS ---
@@ -782,6 +795,7 @@ def delete_voice_profile(
 @app.post(f"{settings.API_V1_STR}/audio/jobs", response_model=schemas.AudioJobResponse, status_code=status.HTTP_201_CREATED)
 def trigger_audio_job(
     job_in: schemas.AudioJobCreate,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
@@ -806,11 +820,12 @@ def trigger_audio_job(
     db.commit()
     db.refresh(job)
 
-    # Trigger Celery Background Task — graceful fallback if broker is down
+    # Trigger Celery Background Task — fallback to FastAPI BackgroundTasks if broker is down
     try:
         tasks.process_audio_task.delay(job.id)
     except Exception as e:
-        logger.warning(f"Celery broker unavailable — audio job {job.id} queued in DB only: {e}")
+        logger.warning(f"Celery broker unavailable — falling back to FastAPI BackgroundTasks for audio job {job.id}: {e}")
+        background_tasks.add_task(tasks.process_audio_task, job.id)
     return job
 
 @app.get(f"{settings.API_V1_STR}/audio/jobs/{{job_id}}", response_model=schemas.AudioJobResponse)
@@ -948,6 +963,7 @@ def list_datasets(
 @app.post(f"{settings.API_V1_STR}/mlops/train", response_model=schemas.FineTuningJobResponse, status_code=status.HTTP_201_CREATED)
 def trigger_fine_tuning(
     job_in: schemas.FineTuningJobCreate,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
@@ -972,11 +988,12 @@ def trigger_fine_tuning(
     db.commit()
     db.refresh(job)
 
-    # Dispatch to Celery — graceful fallback if broker (Redis) is unavailable
+    # Dispatch to Celery — fallback to FastAPI BackgroundTasks if broker (Redis) is unavailable
     try:
         tasks.run_fine_tuning_task.delay(job.id)
     except Exception as e:
-        logger.warning(f"Celery broker unavailable — fine-tuning job {job.id} queued in DB only: {e}")
+        logger.warning(f"Celery broker unavailable — falling back to FastAPI BackgroundTasks for fine-tuning job {job.id}: {e}")
+        background_tasks.add_task(tasks.run_fine_tuning_task, job.id)
 
     return job
 
