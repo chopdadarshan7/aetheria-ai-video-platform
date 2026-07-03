@@ -1176,9 +1176,13 @@ export const useStore = create<AppState>((set, get) => {
     checkoutPlan: async (plan) => {
       const { token } = get();
       if (!token) throw new Error('Unauthorized');
-      const res = await fetch(`${API_BASE_URL}/saas/billing/checkout?plan=${plan}`, {
+      const res = await fetch(`${API_BASE_URL}/saas/billing/checkout`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ plan })
       });
       if (!res.ok) throw new Error('Failed checkout creation');
       const data = await res.json();
@@ -1189,7 +1193,8 @@ export const useStore = create<AppState>((set, get) => {
       const { token, user } = get();
       if (!token || !user) return;
       try {
-        const res = await fetch(`${API_BASE_URL}/saas/billing/webhook?user_id=${user.id}&amount=${amount}`, {
+        const webhookSecret = process.env.NEXT_PUBLIC_WEBHOOK_SECRET || 'dev_secret_key_aetheria_local_2024_x1y2z3';
+        const res = await fetch(`${API_BASE_URL}/saas/billing/webhook?user_id=${user.id}&amount=${amount}&secret=${webhookSecret}`, {
           method: 'POST'
         });
         if (!res.ok) throw new Error('Webhook deposit trigger failed');
@@ -1284,9 +1289,13 @@ export const useStore = create<AppState>((set, get) => {
       }));
 
       try {
-        const res = await fetch(`${API_BASE_URL}/copilot/chat?prompt=${encodeURIComponent(text)}`, {
+        const res = await fetch(`${API_BASE_URL}/copilot/chat`, {
           method: 'POST',
-          headers: { Authorization: `Bearer ${token}` }
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ prompt: text })
         });
         if (!res.ok) throw new Error('Copilot dialogue failed');
         const guidance = await res.json();
@@ -1306,9 +1315,13 @@ export const useStore = create<AppState>((set, get) => {
     estimateRenderCost: async (duration, steps) => {
       const { token } = get();
       if (!token) throw new Error('Unauthorized');
-      const res = await fetch(`${API_BASE_URL}/copilot/estimate?duration=${duration}&steps=${steps}`, {
+      const res = await fetch(`${API_BASE_URL}/copilot/estimate`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ duration, steps })
       });
       if (!res.ok) throw new Error('Failed to estimate rendering cost');
       return res.json();

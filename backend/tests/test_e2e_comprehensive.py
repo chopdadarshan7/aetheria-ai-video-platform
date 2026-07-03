@@ -158,7 +158,7 @@ class TestRenderE2E:
         user_id = me["id"]
 
         # Drain all credits (negative enough to be below cost)
-        client.post(f"{API}/saas/billing/webhook?user_id={user_id}&amount=-200")
+        client.post(f"{API}/saas/billing/webhook?user_id={user_id}&amount=-200&secret={settings.SECRET_KEY}")
 
         res = client.post(f"{API}/renders/trigger", json={
             "job_type": "text-to-video",
@@ -209,7 +209,7 @@ class TestBillingE2E:
         uid = me_before["id"]
         credits_before = me_before["credits"]
 
-        client.post(f"{API}/saas/billing/webhook?user_id={uid}&amount=500")
+        client.post(f"{API}/saas/billing/webhook?user_id={uid}&amount=500&secret={settings.SECRET_KEY}")
 
         me_after = client.get(f"{API}/users/me", headers=h).json()
         assert me_after["credits"] == credits_before + 500
@@ -217,7 +217,7 @@ class TestBillingE2E:
     def test_checkout_returns_url(self, client):
         """Checkout endpoint returns a redirect URL for stripe."""
         h = register_and_login(client, "checkoutuser")
-        res = client.post(f"{API}/saas/billing/checkout?plan=creator", headers=h)
+        res = client.post(f"{API}/saas/billing/checkout", json={"plan": "creator"}, headers=h)
         assert res.status_code == 200
         assert "checkout_url" in res.json()
         assert "creator" in res.json()["checkout_url"]
@@ -252,7 +252,8 @@ class TestTeamsE2E:
         assert create.status_code == 201
         key_data = create.json()
         assert key_data["name"] == "prod-cli-key"
-        assert key_data["key_hash"].startswith("ath_")
+        assert key_data["raw_key"].startswith("ath_")
+        assert key_data["key_prefix"].startswith("ath_")
 
         listing = client.get(f"{API}/saas/apikeys", headers=h)
         assert any(k["name"] == "prod-cli-key" for k in listing.json())
@@ -309,7 +310,8 @@ class TestCopilotE2E:
         """Copilot chat returns enhanced prompt and model recommendation."""
         h = register_and_login(client, "copilotuser")
         res = client.post(
-            f"{API}/copilot/chat?prompt=A%20flying%20dragon%20over%20a%20castle",
+            f"{API}/copilot/chat",
+            json={"prompt": "A flying dragon over a castle"},
             headers=h
         )
         assert res.status_code == 200
@@ -322,7 +324,8 @@ class TestCopilotE2E:
         """Render cost estimate returns time, credits, and VRAM data."""
         h = register_and_login(client, "estimateuser")
         res = client.post(
-            f"{API}/copilot/estimate?duration=8&steps=30",
+            f"{API}/copilot/estimate",
+            json={"duration": 8, "steps": 30},
             headers=h
         )
         assert res.status_code == 200

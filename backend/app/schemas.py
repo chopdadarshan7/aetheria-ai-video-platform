@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import Optional, List
 import datetime
 
@@ -9,6 +9,11 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
+
+# Generic response
+class MessageResponse(BaseModel):
+    status: str
+    message: str
 
 # User Schemas
 class UserBase(BaseModel):
@@ -25,8 +30,7 @@ class UserResponse(UserBase):
     is_admin: bool
     created_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class UserCreditsUpdate(BaseModel):
     credits: float
@@ -48,8 +52,7 @@ class ProjectResponse(ProjectBase):
     created_at: datetime.datetime
     updated_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Asset Schemas
 class AssetResponse(BaseModel):
@@ -63,8 +66,7 @@ class AssetResponse(BaseModel):
     project_id: Optional[int]
     created_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Render Job Schemas
 class RenderJobCreate(BaseModel):
@@ -109,8 +111,7 @@ class RenderJobResponse(BaseModel):
     created_at: datetime.datetime
     updated_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Model Management Schemas
 class ModelInfo(BaseModel):
@@ -135,6 +136,25 @@ class PromptStructured(BaseModel):
     style: str
     weather: str
     emotion: str
+
+# --- NEW: Proper request body schemas (replaces bare query params) ---
+
+class PromptEnhanceRequest(BaseModel):
+    """Request body for POST /prompt/enhance"""
+    prompt: str = Field(..., min_length=1, max_length=2000)
+
+class CopilotChatRequest(BaseModel):
+    """Request body for POST /copilot/chat"""
+    prompt: str = Field(..., min_length=1, max_length=2000)
+
+class CopilotEstimateRequest(BaseModel):
+    """Request body for POST /copilot/estimate"""
+    duration: float = Field(..., gt=0, le=300)
+    steps: int = Field(..., ge=1, le=200)
+
+class BillingCheckoutRequest(BaseModel):
+    """Request body for POST /saas/billing/checkout"""
+    plan: str = Field(..., description="Plan name: free, creator, enterprise")
 
 # Storyboard & Timeline Editor Schemas
 class ShotBase(BaseModel):
@@ -161,8 +181,7 @@ class ShotResponse(ShotBase):
     scene_id: int
     render_job_id: Optional[int] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class SceneBase(BaseModel):
     name: str
@@ -176,8 +195,7 @@ class SceneResponse(SceneBase):
     storyboard_id: int
     shots: List[ShotResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TimelineItemBase(BaseModel):
     shot_id: Optional[int] = None
@@ -194,8 +212,7 @@ class TimelineItemResponse(TimelineItemBase):
     id: int
     layer_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class LayerBase(BaseModel):
     name: str
@@ -210,16 +227,14 @@ class LayerResponse(LayerBase):
     timeline_id: int
     items: List[TimelineItemResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TimelineResponse(BaseModel):
     id: int
     storyboard_id: int
     layers: List[LayerResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class StoryboardBase(BaseModel):
     name: str
@@ -241,8 +256,7 @@ class StoryboardResponse(StoryboardBase):
     scenes: List[SceneResponse] = []
     timeline: Optional[TimelineResponse] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- AUDIO INTELLIGENCE SCHEMAS ---
 class VoiceProfileBase(BaseModel):
@@ -258,8 +272,7 @@ class VoiceProfileResponse(VoiceProfileBase):
     owner_id: int
     created_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class SubtitleBase(BaseModel):
     text: str
@@ -275,8 +288,7 @@ class SubtitleResponse(SubtitleBase):
     storyboard_id: Optional[int]
     render_job_id: Optional[int]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class AudioJobBase(BaseModel):
     job_type: str
@@ -296,8 +308,7 @@ class AudioJobResponse(AudioJobBase):
     created_at: datetime.datetime
     updated_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- MLOPS SCHEMAS ---
 class DatasetBase(BaseModel):
@@ -314,8 +325,7 @@ class DatasetResponse(DatasetBase):
     owner_id: int
     created_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class FineTuningJobBase(BaseModel):
     model_name: str
@@ -335,8 +345,7 @@ class FineTuningJobResponse(FineTuningJobBase):
     owner_id: int
     created_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ModelVersionBase(BaseModel):
     name: str
@@ -348,8 +357,7 @@ class ModelVersionResponse(ModelVersionBase):
     id: int
     created_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- ENTERPRISE SAAS SCHEMAS ---
 class SubscriptionBase(BaseModel):
@@ -363,8 +371,7 @@ class SubscriptionResponse(SubscriptionBase):
     user_id: int
     expires_at: Optional[datetime.datetime]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class CreditTransactionBase(BaseModel):
     amount: int
@@ -376,8 +383,7 @@ class CreditTransactionResponse(CreditTransactionBase):
     user_id: int
     created_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TeamBase(BaseModel):
     name: str
@@ -390,8 +396,7 @@ class TeamResponse(TeamBase):
     owner_id: int
     created_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TeamMemberBase(BaseModel):
     team_id: int
@@ -404,8 +409,7 @@ class TeamMemberCreate(TeamMemberBase):
 class TeamMemberResponse(TeamMemberBase):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ApiKeyBase(BaseModel):
     name: str
@@ -415,9 +419,19 @@ class ApiKeyCreate(ApiKeyBase):
 
 class ApiKeyResponse(ApiKeyBase):
     id: int
-    key_hash: str
+    # key_prefix shows first 8 chars only — never expose full key after creation
+    key_prefix: Optional[str] = None
     user_id: int
     created_at: datetime.datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+class ApiKeyCreatedResponse(ApiKeyBase):
+    """Returned ONLY on initial creation — includes the full raw key once."""
+    id: int
+    raw_key: str
+    key_prefix: Optional[str] = None
+    user_id: int
+    created_at: datetime.datetime
+
+    model_config = ConfigDict(from_attributes=True)

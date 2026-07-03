@@ -13,7 +13,7 @@ class User(Base):
     credits = Column(Float, default=100.0)  # Initial credits given to users
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     # Relationships
     projects = relationship("Project", back_populates="owner", cascade="all, delete-orphan")
@@ -27,8 +27,8 @@ class Project(Base):
     name = Column(String, index=True, nullable=False)
     description = Column(Text, nullable=True)
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc), onupdate=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     # Relationships
     owner = relationship("User", back_populates="projects")
@@ -46,7 +46,7 @@ class Asset(Base):
     storage_path = Column(String, nullable=False)  # S3 Key or local storage path
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     project_id = Column(Integer, ForeignKey("projects.id", ondelete="CASCADE"), nullable=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     # Relationships
     owner = relationship("User", back_populates="assets")
@@ -86,8 +86,8 @@ class RenderJob(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     project_id = Column(Integer, ForeignKey("projects.id", ondelete="CASCADE"), nullable=True)
     
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc), onupdate=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     # Relationships
     user = relationship("User", back_populates="render_jobs")
@@ -109,8 +109,8 @@ class Storyboard(Base):
     result_url = Column(String, nullable=True)
     error_message = Column(Text, nullable=True)
 
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc), onupdate=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     # Relationships
     scenes = relationship("Scene", back_populates="storyboard", cascade="all, delete-orphan")
@@ -212,7 +212,7 @@ class VoiceProfile(Base):
     language = Column(String, default="en")
     embedding_path = Column(String, nullable=True) # S3 or local path to cloned embeddings
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
 class Subtitle(Base):
     __tablename__ = "subtitles"
@@ -241,8 +241,8 @@ class AudioJob(Base):
     error_message = Column(Text, nullable=True)
 
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc), onupdate=lambda: datetime.datetime.now(datetime.timezone.utc))
 
 class Dataset(Base):
     __tablename__ = "datasets"
@@ -253,7 +253,7 @@ class Dataset(Base):
     status = Column(String, default="PENDING") # PENDING, VALIDATED, FAILED
     auto_captions = Column(Text, nullable=True) # stringified JSON
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
 class FineTuningJob(Base):
     __tablename__ = "fine_tuning_jobs"
@@ -268,7 +268,7 @@ class FineTuningJob(Base):
     result_model_path = Column(String, nullable=True)
     metrics = Column(Text, nullable=True) # stringified metrics history dict
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
 class ModelVersion(Base):
     __tablename__ = "model_versions"
@@ -278,7 +278,7 @@ class ModelVersion(Base):
     version = Column(String, nullable=False)
     path = Column(String, nullable=False)
     active = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
 class Subscription(Base):
     __tablename__ = "subscriptions"
@@ -299,7 +299,7 @@ class CreditTransaction(Base):
     transaction_type = Column(String, nullable=False) # purchase, usage, refund
     description = Column(String, nullable=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
 class Team(Base):
     __tablename__ = "teams"
@@ -307,7 +307,7 @@ class Team(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, nullable=False)
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
 class TeamMember(Base):
     __tablename__ = "team_members"
@@ -322,6 +322,7 @@ class ApiKey(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     key_hash = Column(String, unique=True, index=True, nullable=False)
+    key_prefix = Column(String, nullable=True)
     name = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))

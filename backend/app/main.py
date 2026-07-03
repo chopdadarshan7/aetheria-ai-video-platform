@@ -2,7 +2,7 @@ import os
 import asyncio
 import logging
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File, Form, WebSocket, WebSocketDisconnect, BackgroundTasks, Request
+from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File, Form, WebSocket, WebSocketDisconnect, BackgroundTasks, Request, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordRequestForm
@@ -46,6 +46,15 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "Accept"],
 )
+
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    return response
 
 # Static files — path from settings (not hardcoded to developer machine)
 static_dir = settings.STATIC_DIR
@@ -122,9 +131,16 @@ def healthz_probe(db: Session = Depends(get_db)):
 
 @app.get(f"{settings.API_V1_STR}/metrics")
 def metrics_dashboard():
+    import psutil
+    try:
+        cpu = psutil.cpu_percent(interval=None)
+        mem = psutil.virtual_memory().used
+    except Exception:
+        cpu = 12.5
+        mem = 1024 * 1024 * 512
     return {
-        "system_cpu_percent": 12.5,
-        "system_memory_used_bytes": 1024 * 1024 * 512,
+        "system_cpu_percent": cpu,
+        "system_memory_used_bytes": mem,
         "gpu_inference_jobs_active": 1,
         "api_latency_seconds_average": 0.045
     }
@@ -200,8 +216,13 @@ def create_project(project: schemas.ProjectCreate, db: Session = Depends(get_db)
     return db_project
 
 @app.get(f"{settings.API_V1_STR}/projects", response_model=List[schemas.ProjectResponse])
-def list_projects(db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_active_user)):
-    return db.query(models.Project).filter(models.Project.owner_id == current_user.id).all()
+def list_projects(
+    skip: int = 0,
+    limit: int = 50,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(auth.get_current_active_user)
+):
+    return db.query(models.Project).filter(models.Project.owner_id == current_user.id).offset(skip).limit(limit).all()
 
 @app.get(f"{settings.API_V1_STR}/projects/{{project_id}}", response_model=schemas.ProjectResponse)
 def get_project(project_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_active_user)):
@@ -288,13 +309,15 @@ async def upload_asset(
 @app.get(f"{settings.API_V1_STR}/assets", response_model=List[schemas.AssetResponse])
 def list_assets(
     project_id: Optional[int] = None,
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
     query = db.query(models.Asset).filter(models.Asset.owner_id == current_user.id)
     if project_id:
         query = query.filter(models.Asset.project_id == project_id)
-    return query.all()
+    return query.offset(skip).limit(limit).all()
 
 # --- RENDERING ---
 
@@ -361,13 +384,15 @@ def trigger_render(
 @app.get(f"{settings.API_V1_STR}/renders", response_model=List[schemas.RenderJobResponse])
 def list_renders(
     project_id: Optional[int] = None,
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
     query = db.query(models.RenderJob).filter(models.RenderJob.user_id == current_user.id)
     if project_id:
         query = query.filter(models.RenderJob.project_id == project_id)
-    return query.all()
+    return query.offset(skip).limit(limit).all()
 
 @app.get(f"{settings.API_V1_STR}/renders/{{job_id}}", response_model=schemas.RenderJobResponse)
 def get_render_job(job_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_active_user)):
@@ -390,8 +415,11 @@ def cancel_render(job_id: int, db: Session = Depends(get_db), current_user: mode
     db.commit()
     db.refresh(job)
     
-    from .tasks import broadcast_progress
-    broadcast_progress(job.user_id, job.id, job.progress, "CANCELLED", error_message="Render cancelled by user.")
+    try:
+        from .tasks import broadcast_progress
+        broadcast_progress(job.user_id, job.id, job.progress, "CANCELLED", error_message="Render cancelled by user.")
+    except Exception as e:
+        logger.warning(f"WebSocket broadcast failed for job cancel {job.id}: {e}")
     
     return job
 
@@ -412,10 +440,16 @@ def retry_render(job_id: int, db: Session = Depends(get_db), current_user: model
     db.refresh(job)
     
     # Re-queue task
-    tasks.render_video_task.delay(job.id)
+    try:
+        tasks.render_video_task.delay(job.id)
+    except Exception as e:
+        logger.warning(f"Celery broker unavailable — render retry job {job.id} queued in DB only: {e}")
     
-    from .tasks import broadcast_progress
-    broadcast_progress(job.user_id, job.id, 0, "PENDING")
+    try:
+        from .tasks import broadcast_progress
+        broadcast_progress(job.user_id, job.id, 0, "PENDING")
+    except Exception as e:
+        logger.warning(f"WebSocket broadcast failed for job retry {job.id}: {e}")
     
     return job
 
@@ -455,19 +489,22 @@ def switch_active_model(request: schemas.ModelSwitchRequest, current_user: model
     models_dict = local_model_manager.list_models()
     return schemas.ModelInfo(id=request.model_id, **models_dict[request.model_id])
 
-@app.delete(f"{settings.API_V1_STR}/models/{{model_id}}")
+@app.delete(f"{settings.API_V1_STR}/models/{{model_id}}", response_model=schemas.MessageResponse)
 def delete_model_cache(model_id: str, current_user: models.User = Depends(auth.get_current_active_user)):
     """Delete a model's local cached safetensor files from the disk."""
     success = local_model_manager.delete_cached_files(model_id)
     if not success:
          raise HTTPException(status_code=404, detail="Model cache files not found or ID invalid")
-    return {"status": "success", "message": f"Cache files deleted for model {model_id}."}
+    return schemas.MessageResponse(status="success", message=f"Cache files deleted for model {model_id}.")
 
 # --- PROMPT ENGINE ---
 
 @app.post(f"{settings.API_V1_STR}/prompt/enhance", response_model=schemas.PromptStructured)
-def enhance_prompt(prompt_in: str, current_user: models.User = Depends(auth.get_current_active_user)):
-    enhanced_dict = tasks.enhance_prompt_task(prompt_in)
+def enhance_prompt(
+    request: schemas.PromptEnhanceRequest,
+    current_user: models.User = Depends(auth.get_current_active_user)
+):
+    enhanced_dict = tasks.enhance_prompt_task(request.prompt)
     return enhanced_dict
 
 # --- STORYBOARD & TIMELINE ENDPOINTS ---
@@ -719,10 +756,12 @@ def create_voice_profile(
 
 @app.get(f"{settings.API_V1_STR}/audio/voices", response_model=List[schemas.VoiceProfileResponse])
 def list_voice_profiles(
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
-    return db.query(models.VoiceProfile).filter(models.VoiceProfile.owner_id == current_user.id).all()
+    return db.query(models.VoiceProfile).filter(models.VoiceProfile.owner_id == current_user.id).offset(skip).limit(limit).all()
 
 @app.delete(f"{settings.API_V1_STR}/audio/voices/{{voice_id}}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_voice_profile(
@@ -767,8 +806,11 @@ def trigger_audio_job(
     db.commit()
     db.refresh(job)
 
-    # Trigger Celery Background Task
-    tasks.process_audio_task.delay(job.id)
+    # Trigger Celery Background Task — graceful fallback if broker is down
+    try:
+        tasks.process_audio_task.delay(job.id)
+    except Exception as e:
+        logger.warning(f"Celery broker unavailable — audio job {job.id} queued in DB only: {e}")
     return job
 
 @app.get(f"{settings.API_V1_STR}/audio/jobs/{{job_id}}", response_model=schemas.AudioJobResponse)
@@ -789,15 +831,35 @@ def get_audio_job(
 def list_subtitles(
     storyboard_id: Optional[int] = None,
     render_job_id: Optional[int] = None,
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
-    query = db.query(models.Subtitle)
     if storyboard_id:
-        query = query.filter(models.Subtitle.storyboard_id == storyboard_id)
+        sb = db.query(models.Storyboard).filter(
+            models.Storyboard.id == storyboard_id,
+            models.Storyboard.owner_id == current_user.id
+        ).first()
+        if not sb:
+            raise HTTPException(status_code=403, detail="Not authorized to access this storyboard")
+        return db.query(models.Subtitle).filter(models.Subtitle.storyboard_id == storyboard_id).offset(skip).limit(limit).all()
+        
     if render_job_id:
-        query = query.filter(models.Subtitle.render_job_id == render_job_id)
-    return query.all()
+        job = db.query(models.RenderJob).filter(
+            models.RenderJob.id == render_job_id,
+            models.RenderJob.user_id == current_user.id
+        ).first()
+        if not job:
+            raise HTTPException(status_code=403, detail="Not authorized to access this render job")
+        return db.query(models.Subtitle).filter(models.Subtitle.render_job_id == render_job_id).offset(skip).limit(limit).all()
+        
+    sb_ids = [s.id for s in db.query(models.Storyboard.id).filter(models.Storyboard.owner_id == current_user.id).all()]
+    job_ids = [j.id for j in db.query(models.RenderJob.id).filter(models.RenderJob.user_id == current_user.id).all()]
+    
+    return db.query(models.Subtitle).filter(
+        (models.Subtitle.storyboard_id.in_(sb_ids)) | (models.Subtitle.render_job_id.in_(job_ids))
+    ).offset(skip).limit(limit).all()
 
 @app.post(f"{settings.API_V1_STR}/audio/subtitles", response_model=schemas.SubtitleResponse, status_code=status.HTTP_201_CREATED)
 def create_subtitle(
@@ -805,6 +867,22 @@ def create_subtitle(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
+    # Verify ownership of destination storyboard/render_job
+    if sub_in.storyboard_id:
+        sb = db.query(models.Storyboard).filter(
+            models.Storyboard.id == sub_in.storyboard_id,
+            models.Storyboard.owner_id == current_user.id
+        ).first()
+        if not sb:
+            raise HTTPException(status_code=403, detail="Not authorized to add subtitles to this storyboard")
+    if sub_in.render_job_id:
+        job = db.query(models.RenderJob).filter(
+            models.RenderJob.id == sub_in.render_job_id,
+            models.RenderJob.user_id == current_user.id
+        ).first()
+        if not job:
+            raise HTTPException(status_code=403, detail="Not authorized to add subtitles to this render job")
+
     sub = models.Subtitle(**sub_in.model_dump())
     db.add(sub)
     db.commit()
@@ -820,6 +898,22 @@ def delete_subtitle(
     sub = db.query(models.Subtitle).filter(models.Subtitle.id == sub_id).first()
     if not sub:
         raise HTTPException(status_code=404, detail="Subtitle not found")
+        
+    if sub.storyboard_id:
+        sb = db.query(models.Storyboard).filter(
+            models.Storyboard.id == sub.storyboard_id,
+            models.Storyboard.owner_id == current_user.id
+        ).first()
+        if not sb:
+            raise HTTPException(status_code=403, detail="Not authorized to edit this storyboard's subtitles")
+    elif sub.render_job_id:
+        job = db.query(models.RenderJob).filter(
+            models.RenderJob.id == sub.render_job_id,
+            models.RenderJob.user_id == current_user.id
+        ).first()
+        if not job:
+            raise HTTPException(status_code=403, detail="Not authorized to edit this render job's subtitles")
+            
     db.delete(sub)
     db.commit()
     return None
@@ -844,10 +938,12 @@ def create_dataset(
 
 @app.get(f"{settings.API_V1_STR}/mlops/datasets", response_model=List[schemas.DatasetResponse])
 def list_datasets(
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
-    return db.query(models.Dataset).filter(models.Dataset.owner_id == current_user.id).all()
+    return db.query(models.Dataset).filter(models.Dataset.owner_id == current_user.id).offset(skip).limit(limit).all()
 
 @app.post(f"{settings.API_V1_STR}/mlops/train", response_model=schemas.FineTuningJobResponse, status_code=status.HTTP_201_CREATED)
 def trigger_fine_tuning(
@@ -886,35 +982,44 @@ def trigger_fine_tuning(
 
 @app.get(f"{settings.API_V1_STR}/mlops/train", response_model=List[schemas.FineTuningJobResponse])
 def list_fine_tuning_jobs(
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
-    return db.query(models.FineTuningJob).filter(models.FineTuningJob.owner_id == current_user.id).all()
+    return db.query(models.FineTuningJob).filter(models.FineTuningJob.owner_id == current_user.id).offset(skip).limit(limit).all()
 
 @app.get(f"{settings.API_V1_STR}/mlops/models", response_model=List[schemas.ModelVersionResponse])
 def list_model_registry_versions(
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
-    return db.query(models.ModelVersion).all()
+    return db.query(models.ModelVersion).offset(skip).limit(limit).all()
 
 # --- SAAS ENTERPRISE ENDPOINTS ---
 
 @app.post(f"{settings.API_V1_STR}/saas/billing/checkout")
 def create_billing_checkout(
-    plan: str,
+    request: schemas.BillingCheckoutRequest,
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
     from app.services.billing_manager import BillingManager
-    checkout_url = BillingManager.create_checkout_session(current_user.id, plan)
+    checkout_url = BillingManager.create_checkout_session(current_user.id, request.plan)
     return {"checkout_url": checkout_url}
 
 @app.post(f"{settings.API_V1_STR}/saas/billing/webhook")
 def mock_billing_webhook(
     user_id: int,
     amount: int,
+    secret: Optional[str] = None,
+    x_webhook_secret: Optional[str] = Header(None),
     db: Session = Depends(get_db)
 ):
+    # Verify signature/secret for security check
+    if secret != settings.SECRET_KEY and x_webhook_secret != settings.SECRET_KEY:
+        raise HTTPException(status_code=401, detail="Unauthorized webhook call")
     from app.services.billing_manager import BillingManager
     tx = BillingManager.process_credits_transaction(
         db=db,
@@ -927,10 +1032,12 @@ def mock_billing_webhook(
 
 @app.get(f"{settings.API_V1_STR}/saas/billing/transactions", response_model=List[schemas.CreditTransactionResponse])
 def list_credit_transactions(
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
-    return db.query(models.CreditTransaction).filter(models.CreditTransaction.user_id == current_user.id).all()
+    return db.query(models.CreditTransaction).filter(models.CreditTransaction.user_id == current_user.id).offset(skip).limit(limit).all()
 
 @app.post(f"{settings.API_V1_STR}/saas/teams", response_model=schemas.TeamResponse, status_code=status.HTTP_201_CREATED)
 def create_team_workspace(
@@ -951,52 +1058,69 @@ def create_team_workspace(
 
 @app.get(f"{settings.API_V1_STR}/saas/teams", response_model=List[schemas.TeamResponse])
 def list_team_workspaces(
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
     # Retrieve all teams where user is member
-    return db.query(models.Team).join(models.TeamMember).filter(models.TeamMember.user_id == current_user.id).all()
+    return db.query(models.Team).join(models.TeamMember).filter(models.TeamMember.user_id == current_user.id).offset(skip).limit(limit).all()
 
-@app.post(f"{settings.API_V1_STR}/saas/apikeys", response_model=schemas.ApiKeyResponse, status_code=status.HTTP_201_CREATED)
+@app.post(f"{settings.API_V1_STR}/saas/apikeys", response_model=schemas.ApiKeyCreatedResponse, status_code=status.HTTP_201_CREATED)
 def create_api_key(
     key_in: schemas.ApiKeyCreate,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
     import secrets
+    import hashlib
     raw_key = f"ath_{secrets.token_hex(24)}"
+    h = hashlib.sha256(raw_key.encode()).hexdigest()
+    prefix = raw_key[:12]
+    
     key = models.ApiKey(
         name=key_in.name,
-        key_hash=raw_key, # we store it raw for testing visibility
+        key_hash=h,
+        key_prefix=prefix,
         user_id=current_user.id
     )
     db.add(key)
     db.commit()
     db.refresh(key)
-    return key
+    
+    # Return custom response with the raw key so it is shown once
+    return schemas.ApiKeyCreatedResponse(
+        id=key.id,
+        name=key.name,
+        raw_key=raw_key,
+        key_prefix=prefix,
+        user_id=key.user_id,
+        created_at=key.created_at
+    )
 
 @app.get(f"{settings.API_V1_STR}/saas/apikeys", response_model=List[schemas.ApiKeyResponse])
 def list_api_keys(
+    skip: int = 0,
+    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
-    return db.query(models.ApiKey).filter(models.ApiKey.user_id == current_user.id).all()
+    return db.query(models.ApiKey).filter(models.ApiKey.user_id == current_user.id).offset(skip).limit(limit).all()
 
 # --- AI COPILOT ENDPOINTS ---
 
 @app.post(f"{settings.API_V1_STR}/copilot/chat")
 def get_copilot_advice(
-    prompt: str,
+    request: schemas.CopilotChatRequest,
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
     from app.services.copilot_service import CopilotService
-    return CopilotService.generate_prompt_guidance(prompt)
+    return CopilotService.generate_prompt_guidance(request.prompt)
 
 @app.post(f"{settings.API_V1_STR}/copilot/estimate")
 def get_render_estimate(
-    duration: float,
-    steps: int,
+    request: schemas.CopilotEstimateRequest,
     current_user: models.User = Depends(auth.get_current_active_user)
 ):
     from app.services.copilot_service import CopilotService
-    return CopilotService.estimate_rendering_cost(duration, steps)
+    return CopilotService.estimate_rendering_cost(request.duration, request.steps)

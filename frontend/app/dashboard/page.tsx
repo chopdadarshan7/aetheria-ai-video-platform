@@ -73,9 +73,13 @@ export default function Dashboard() {
     if (!prompt) return;
     try {
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
-      const res = await fetch(`${API_BASE_URL}/prompt/enhance?prompt_in=${encodeURIComponent(prompt)}`, {
+      const res = await fetch(`${API_BASE_URL}/prompt/enhance`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt })
       });
       if (!res.ok) throw new Error('Failed to enhance prompt');
       const data = await res.json();
