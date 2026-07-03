@@ -1,0 +1,17 @@
+{
+  "job_id": 999,
+  "job_type": "text-to-video",
+  "prompt": "A bird flying high speed",
+  "enhanced_prompt": "A professional, ultra-detailed cinematic shot of a bird actively flying in a abstract environment. Atmosphere: clear weather, captured during natural light. Camera characteristics: static, featuring high speed, captured in 8k resolution, highly detailed textures, masterfully graded color.",
+  "negative_prompt": "blurry, low quality, noise, grain, text overlay, signature, watermark, deformed anatomy, disfigured limbs, bad lighting, extra fingers, cartoonish if photorealistic, static frames, jittery cuts, low resolution",
+  "aspect_ratio": "16:9",
+  "duration": 5,
+  "steps": 25,
+  "cfg_scale": 7.0,
+  "seed": 12345,
+  "motion_strength": 127,
+  "fps": 8,
+  "resolution": "512x288",
+  "inference_time_seconds": 4.03,
+  "model_version": "cogvideox-2b"
+}

@@ -1,0 +1,450 @@
+[Hugging Face](https://huggingface.co/)
+- [Models](https://huggingface.co/models)
+- [Datasets](https://huggingface.co/datasets)
+- [Spaces](https://huggingface.co/spaces)
+- [Buckets new](https://huggingface.co/storage)
+- [Docs](https://huggingface.co/docs)
+- [Enterprise](https://huggingface.co/enterprise)
+- [Pricing](https://huggingface.co/pricing)
+-     
+- 
+- [Log In](https://huggingface.co/login)
+- [Sign Up](https://huggingface.co/join)
+[Models](https://huggingface.co/models)
+[Datasets](https://huggingface.co/datasets)
+[Spaces](https://huggingface.co/spaces)
+[Buckets new](https://huggingface.co/storage)
+[Docs](https://huggingface.co/docs)
+[Enterprise](https://huggingface.co/enterprise)
+[Pricing](https://huggingface.co/pricing)
+[Log In](https://huggingface.co/login)
+[Sign Up](https://huggingface.co/join)
+
+# https://huggingface.co/[Qwen](https://huggingface.co/Qwen) Qwen / [Qwen2.5-VL-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct) like 640 Follow Qwen 81.4k
+
+[Qwen](https://huggingface.co/Qwen)
+[Qwen2.5-VL-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct)
+[Image-Text-to-Text](https://huggingface.co/models?pipeline_tag=image-text-to-text)
+[Transformers](https://huggingface.co/models?library=transformers)
+[Safetensors](https://huggingface.co/models?library=safetensors)
+[English](https://huggingface.co/models?language=en)
+[qwen2_5_vl](https://huggingface.co/models?other=qwen2_5_vl)
+[multimodal](https://huggingface.co/models?other=multimodal)
+[conversational](https://huggingface.co/models?other=conversational)
+[Eval Results](https://huggingface.co/models?other=eval-results)
+[text-generation-inference](https://huggingface.co/models?other=text-generation-inference)
+[Model card](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct)
+[Files Files and versions   xet](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/tree/main)
+[Community 48](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions)
+- [Qwen2.5-VL-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#qwen25-vl-3b-instruct) [Introduction](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#introduction) [Evaluation](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#evaluation) [Image benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#image-benchmark)[Video benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#video-benchmark)[Agent benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#agent-benchmark)[Requirements](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#requirements) [Quickstart](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#quickstart) [Using 🤗  Transformers to Chat](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat)[🤖 ModelScope](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#%F0%9F%A4%96-modelscope)[More Usage Tips](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#more-usage-tips)[Processing Long Texts](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#processing-long-texts)[Citation](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#citation) 
+- [Introduction](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#introduction) 
+- [Evaluation](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#evaluation) [Image benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#image-benchmark)[Video benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#video-benchmark)[Agent benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#agent-benchmark)
+- [Image benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#image-benchmark)
+- [Video benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#video-benchmark)
+- [Agent benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#agent-benchmark)
+- [Requirements](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#requirements) 
+- [Quickstart](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#quickstart) [Using 🤗  Transformers to Chat](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat)[🤖 ModelScope](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#%F0%9F%A4%96-modelscope)[More Usage Tips](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#more-usage-tips)[Processing Long Texts](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#processing-long-texts)
+- [Using 🤗  Transformers to Chat](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat)
+- [🤖 ModelScope](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#%F0%9F%A4%96-modelscope)
+- [More Usage Tips](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#more-usage-tips)
+- [Processing Long Texts](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#processing-long-texts)
+- [Citation](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#citation) 
+[Qwen2.5-VL-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#qwen25-vl-3b-instruct)
+- [Introduction](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#introduction) 
+- [Evaluation](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#evaluation) [Image benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#image-benchmark)[Video benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#video-benchmark)[Agent benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#agent-benchmark)
+- [Image benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#image-benchmark)
+
+# https://huggingface.co/[Qwen](https://huggingface.co/Qwen) Qwen / [Qwen2.5-VL-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct) like 640 Follow Qwen 81.4k
+
+- [Video benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#video-benchmark)
+- [Agent benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#agent-benchmark)
+- [Requirements](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#requirements) 
+- [Quickstart](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#quickstart) [Using 🤗  Transformers to Chat](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat)[🤖 ModelScope](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#%F0%9F%A4%96-modelscope)[More Usage Tips](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#more-usage-tips)[Processing Long Texts](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#processing-long-texts)
+- [Using 🤗  Transformers to Chat](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat)
+- [🤖 ModelScope](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#%F0%9F%A4%96-modelscope)
+- [More Usage Tips](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#more-usage-tips)
+- [Processing Long Texts](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#processing-long-texts)
+- [Citation](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#citation) 
+[Introduction](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#introduction)
+[Evaluation](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#evaluation)
+- [Image benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#image-benchmark)
+- [Video benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#video-benchmark)
+- [Agent benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#agent-benchmark)
+[Image benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#image-benchmark)
+[Video benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#video-benchmark)
+[Agent benchmark](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#agent-benchmark)
+[Requirements](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#requirements)
+[Quickstart](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#quickstart)
+- [Using 🤗  Transformers to Chat](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat)
+- [🤖 ModelScope](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#%F0%9F%A4%96-modelscope)
+- [More Usage Tips](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#more-usage-tips)
+- [Processing Long Texts](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#processing-long-texts)
+[Using 🤗  Transformers to Chat](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat)
+[🤖 ModelScope](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#%F0%9F%A4%96-modelscope)
+[More Usage Tips](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#more-usage-tips)
+[Processing Long Texts](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#processing-long-texts)
+[Citation](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#citation)
+
+## https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#introduction Introduction
+In the past five months since Qwen2-VL’s release, numerous developers have built new models on the Qwen2-VL vision-language models, providing us with valuable feedback. During this period, we focused on building more useful vision-language models. Today, we are excited to introduce the latest addition to the Qwen family: Qwen2.5-VL.
+
+#### https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#key-enhancements Key Enhancements:
+- Understand things visually: Qwen2.5-VL is not only proficient in recognizing common objects such as flowers, birds, fish, and insects, but it is highly capable of analyzing texts, charts, icons, graphics, and layouts within images.
+
+- Being agentic: Qwen2.5-VL directly plays as a visual agent that can reason and dynamically direct tools, which is capable of computer use and phone use.
+
+- Understanding long videos and capturing events: Qwen2.5-VL can comprehend videos of over 1 hour, and this time it has a new ability of cpaturing event by pinpointing the relevant video segments.
+
+- Capable of visual localization in different formats: Qwen2.5-VL can accurately localize objects in an image by generating bounding boxes or points, and it can provide stable JSON outputs for coordinates and attributes.
+
+- Generating structured outputs: for data like scans of invoices, forms, tables, etc. Qwen2.5-VL supports structured outputs of their contents, benefiting usages in finance, commerce, etc.
+
+Understand things visually: Qwen2.5-VL is not only proficient in recognizing common objects such as flowers, birds, fish, and insects, but it is highly capable of analyzing texts, charts, icons, graphics, and layouts within images.
+Being agentic: Qwen2.5-VL directly plays as a visual agent that can reason and dynamically direct tools, which is capable of computer use and phone use.
+Understanding long videos and capturing events: Qwen2.5-VL can comprehend videos of over 1 hour, and this time it has a new ability of cpaturing event by pinpointing the relevant video segments.
+Capable of visual localization in different formats: Qwen2.5-VL can accurately localize objects in an image by generating bounding boxes or points, and it can provide stable JSON outputs for coordinates and attributes.
+Generating structured outputs: for data like scans of invoices, forms, tables, etc. Qwen2.5-VL supports structured outputs of their contents, benefiting usages in finance, commerce, etc.
+
+#### https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#model-architecture-updates Model Architecture Updates:
+- Dynamic Resolution and Frame Rate Training for Video Understanding:
+We extend dynamic resolution to the temporal dimension by adopting dynamic FPS sampling, enabling the model to comprehend videos at various sampling rates. Accordingly, we update mRoPE in the time dimension with IDs and absolute time alignment, enabling the model to learn temporal sequence and speed, and ultimately acquire the ability to pinpoint specific moments.
+- Streamlined and Efficient Vision Encoder
+We enhance both training and inference speeds by strategically implementing window attention into the ViT. The ViT architecture is further optimized with SwiGLU and RMSNorm, aligning it with the structure of the Qwen2.5 LLM.
+We have three models with 3, 7 and 72 billion parameters. This repo contains the instruction-tuned 3B Qwen2.5-VL model. For more information, visit our [Blog](https://qwenlm.github.io/blog/qwen2.5-vl/) and [GitHub](https://github.com/QwenLM/Qwen2.5-VL).
+
+## https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#requirements Requirements
+The code of Qwen2.5-VL has been in the latest Hugging face transformers and we advise you to build from source with command:
+
+```
+pip install git+https://github.com/huggingface/transformers accelerate
+```
+
+
+```
+pip install git+https://github.com/huggingface/transformers accelerate
+```
+
+or you might encounter the following error:
+
+```
+KeyError: 'qwen2_5_vl'
+```
+
+
+```
+KeyError: 'qwen2_5_vl'
+```
+
+## https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#quickstart Quickstart
+
+Below, we provide simple examples to show how to use Qwen2.5-VL with 🤖 ModelScope and 🤗 Transformers.
+The code of Qwen2.5-VL has been in the latest Hugging face transformers and we advise you to build from source with command:
+
+```
+pip install git+https://github.com/huggingface/transformers accelerate
+```
+
+
+```
+pip install git+https://github.com/huggingface/transformers accelerate
+```
+
+or you might encounter the following error:
+
+```
+KeyError: 'qwen2_5_vl'
+```
+
+
+```
+KeyError: 'qwen2_5_vl'
+```
+
+We offer a toolkit to help you handle various types of visual input more conveniently, as if you were using an API. This includes base64, URLs, and interleaved images and videos. You can install it using the following command:
+
+```
+# It's highly recommanded to use `[decord]` feature for faster video loading. pip install qwen-vl-utils[decord]==0.0.8
+```
+
+
+```
+# It's highly recommanded to use `[decord]` feature for faster video loading. pip install qwen-vl-utils[decord]==0.0.8
+```
+
+If you are not using Linux, you might not be able to install decord from PyPI. In that case, you can use pip install qwen-vl-utils which will fall back to using torchvision for video processing. However, you can still [install decord from source](https://github.com/dmlc/decord?tab=readme-ov-file#install-from-source) to get decord used when loading video.
+
+```
+decord
+```
+
+
+```
+pip install qwen-vl-utils
+```
+
+### https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat Using 🤗 Transformers to Chat
+
+Here we show a code snippet to show you how to use the chat model with transformers and qwen_vl_utils:
+
+```
+transformers
+```
+
+
+```
+qwen_vl_utils
+```
+
+
+```
+from transformers import Qwen2_5_VLForConditionalGeneration, AutoTokenizer, AutoProcessor from qwen_vl_utils import process_vision_info # default: Load the model on the available device(s) model = Qwen2_5_VLForConditionalGeneration.from_pretrained( "Qwen/Qwen2.5-VL-3B-Instruct", torch_dtype="auto", device_map="auto" ) # We recommend enabling flash_attention_2 for better acceleration and memory saving, especially in multi-image and video scenarios. # model = Qwen2_5_VLForConditionalGeneration.from_pretrained( # "Qwen/Qwen2.5-VL-3B-Instruct", # torch_dtype=torch.bfloat16, # attn_implementation="flash_attention_2", # device_map="auto", # ) # default processer processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-3B-Instruct") # The default range for the number of visual tokens per image in the model is 4-16384. # You can set min_pixels and max_pixels according to your needs, such as a token range of 256-1280, to balance performance and cost. # min_pixels = 256*28*28 # max_pixels = 1280*28*28 # processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-3B-Instruct", min_pixels=min_pixels, max_pixels=max_pixels) messages = [ { "role": "user", "content": [ { "type": "image", "image": "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/demo.jpeg", }, {"type": "text", "text": "Describe this image."}, ], } ] # Preparation for inference text = processor.apply_chat_template( messages, tokenize=False, add_generation_prompt=True ) image_inputs, video_inputs = process_vision_info(messages) inputs = processor( text=[text], images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt", ) inputs = inputs.to("cuda") # Inference: Generation of the output generated_ids = model.generate(**inputs, max_new_tokens=128) generated_ids_trimmed = [ out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids) ] output_text = processor.batch_decode( generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False ) print(output_text)
+```
+
+
+```
+from transformers import Qwen2_5_VLForConditionalGeneration, AutoTokenizer, AutoProcessor from qwen_vl_utils import process_vision_info # default: Load the model on the available device(s) model = Qwen2_5_VLForConditionalGeneration.from_pretrained( "Qwen/Qwen2.5-VL-3B-Instruct", torch_dtype="auto", device_map="auto" ) # We recommend enabling flash_attention_2 for better acceleration and memory saving, especially in multi-image and video scenarios. # model = Qwen2_5_VLForConditionalGeneration.from_pretrained( # "Qwen/Qwen2.5-VL-3B-Instruct", # torch_dtype=torch.bfloat16, # attn_implementation="flash_attention_2", # device_map="auto", # ) # default processer processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-3B-Instruct") # The default range for the number of visual tokens per image in the model is 4-16384. # You can set min_pixels and max_pixels according to your needs, such as a token range of 256-1280, to balance performance and cost. # min_pixels = 256*28*28 # max_pixels = 1280*28*28 # processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-3B-Instruct", min_pixels=min_pixels, max_pixels=max_pixels) messages = [ { "role": "user", "content": [ { "type": "image", "image": "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/demo.jpeg", }, {"type": "text", "text": "Describe this image."}, ], } ] # Preparation for inference text = processor.apply_chat_template( messages, tokenize=False, add_generation_prompt=True ) image_inputs, video_inputs = process_vision_info(messages) inputs = processor( text=[text], images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt", ) inputs = inputs.to("cuda") # Inference: Generation of the output generated_ids = model.generate(**inputs, max_new_tokens=128) generated_ids_trimmed = [ out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids) ] output_text = processor.batch_decode( generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False ) print(output_text)
+```
+
+### https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat Using 🤗 Transformers to Chat
+
+```
+# Messages containing multiple images and a text query messages = [ { "role": "user", "content": [ {"type": "image", "image": "file:///path/to/image1.jpg"}, {"type": "image", "image": "file:///path/to/image2.jpg"}, {"type": "text", "text": "Identify the similarities between these images."}, ], } ] # Preparation for inference text = processor.apply_chat_template( messages, tokenize=False, add_generation_prompt=True ) image_inputs, video_inputs = process_vision_info(messages) inputs = processor( text=[text], images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt", ) inputs = inputs.to("cuda") # Inference generated_ids = model.generate(**inputs, max_new_tokens=128) generated_ids_trimmed = [ out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids) ] output_text = processor.batch_decode( generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False ) print(output_text)
+```
+
+
+```
+# Messages containing multiple images and a text query messages = [ { "role": "user", "content": [ {"type": "image", "image": "file:///path/to/image1.jpg"}, {"type": "image", "image": "file:///path/to/image2.jpg"}, {"type": "text", "text": "Identify the similarities between these images."}, ], } ] # Preparation for inference text = processor.apply_chat_template( messages, tokenize=False, add_generation_prompt=True ) image_inputs, video_inputs = process_vision_info(messages) inputs = processor( text=[text], images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt", ) inputs = inputs.to("cuda") # Inference generated_ids = model.generate(**inputs, max_new_tokens=128) generated_ids_trimmed = [ out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids) ] output_text = processor.batch_decode( generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False ) print(output_text)
+```
+
+
+```
+# Messages containing a images list as a video and a text query messages = [ { "role": "user", "content": [ { "type": "video", "video": [ "file:///path/to/frame1.jpg", "file:///path/to/frame2.jpg", "file:///path/to/frame3.jpg", "file:///path/to/frame4.jpg", ], }, {"type": "text", "text": "Describe this video."}, ], } ] # Messages containing a local video path and a text query messages = [ { "role": "user", "content": [ { "type": "video", "video": "file:///path/to/video1.mp4", "max_pixels": 360 * 420, "fps": 1.0, }, {"type": "text", "text": "Describe this video."}, ], } ] # Messages containing a video url and a text query messages = [ { "role": "user", "content": [ { "type": "video", "video": "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen2-VL/space_woaudio.mp4", }, {"type": "text", "text": "Describe this video."}, ], } ] #In Qwen 2.5 VL, frame rate information is also input into the model to align with absolute time. # Preparation for inference text = processor.apply_chat_template( messages, tokenize=False, add_generation_prompt=True ) image_inputs, video_inputs, video_kwargs = process_vision_info(messages, return_video_kwargs=True) inputs = processor( text=[text], images=image_inputs, videos=video_inputs, fps=fps, padding=True, return_tensors="pt", **video_kwargs, ) inputs = inputs.to("cuda") # Inference generated_ids = model.generate(**inputs, max_new_tokens=128) generated_ids_trimmed = [ out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids) ] output_text = processor.batch_decode( generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False ) print(output_text)
+```
+
+### https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#using-%F0%9F%A4%97--transformers-to-chat Using 🤗 Transformers to Chat
+
+```
+# Messages containing a images list as a video and a text query messages = [ { "role": "user", "content": [ { "type": "video", "video": [ "file:///path/to/frame1.jpg", "file:///path/to/frame2.jpg", "file:///path/to/frame3.jpg", "file:///path/to/frame4.jpg", ], }, {"type": "text", "text": "Describe this video."}, ], } ] # Messages containing a local video path and a text query messages = [ { "role": "user", "content": [ { "type": "video", "video": "file:///path/to/video1.mp4", "max_pixels": 360 * 420, "fps": 1.0, }, {"type": "text", "text": "Describe this video."}, ], } ] # Messages containing a video url and a text query messages = [ { "role": "user", "content": [ { "type": "video", "video": "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen2-VL/space_woaudio.mp4", }, {"type": "text", "text": "Describe this video."}, ], } ] #In Qwen 2.5 VL, frame rate information is also input into the model to align with absolute time. # Preparation for inference text = processor.apply_chat_template( messages, tokenize=False, add_generation_prompt=True ) image_inputs, video_inputs, video_kwargs = process_vision_info(messages, return_video_kwargs=True) inputs = processor( text=[text], images=image_inputs, videos=video_inputs, fps=fps, padding=True, return_tensors="pt", **video_kwargs, ) inputs = inputs.to("cuda") # Inference generated_ids = model.generate(**inputs, max_new_tokens=128) generated_ids_trimmed = [ out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids) ] output_text = processor.batch_decode( generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False ) print(output_text)
+```
+
+Video URL compatibility largely depends on the third-party library version. The details are in the table below. change the backend by FORCE_QWENVL_VIDEO_READER=torchvision or FORCE_QWENVL_VIDEO_READER=decord if you prefer not to use the default one.
+
+```
+FORCE_QWENVL_VIDEO_READER=torchvision
+```
+
+
+```
+FORCE_QWENVL_VIDEO_READER=decord
+```
+
+
+```
+# Sample messages for batch inference messages1 = [ { "role": "user", "content": [ {"type": "image", "image": "file:///path/to/image1.jpg"}, {"type": "image", "image": "file:///path/to/image2.jpg"}, {"type": "text", "text": "What are the common elements in these pictures?"}, ], } ] messages2 = [ {"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": "Who are you?"}, ] # Combine messages for batch processing messages = [messages1, messages2] # Preparation for batch inference texts = [ processor.apply_chat_template(msg, tokenize=False, add_generation_prompt=True) for msg in messages ] image_inputs, video_inputs = process_vision_info(messages) inputs = processor( text=texts, images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt", ) inputs = inputs.to("cuda") # Batch Inference generated_ids = model.generate(**inputs, max_new_tokens=128) generated_ids_trimmed = [ out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids) ] output_texts = processor.batch_decode( generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False ) print(output_texts)
+```
+
+
+```
+# Sample messages for batch inference messages1 = [ { "role": "user", "content": [ {"type": "image", "image": "file:///path/to/image1.jpg"}, {"type": "image", "image": "file:///path/to/image2.jpg"}, {"type": "text", "text": "What are the common elements in these pictures?"}, ], } ] messages2 = [ {"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": "Who are you?"}, ] # Combine messages for batch processing messages = [messages1, messages2] # Preparation for batch inference texts = [ processor.apply_chat_template(msg, tokenize=False, add_generation_prompt=True) for msg in messages ] image_inputs, video_inputs = process_vision_info(messages) inputs = processor( text=texts, images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt", ) inputs = inputs.to("cuda") # Batch Inference generated_ids = model.generate(**inputs, max_new_tokens=128) generated_ids_trimmed = [ out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids) ] output_texts = processor.batch_decode( generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False ) print(output_texts)
+```
+
+### https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#%F0%9F%A4%96-modelscope 🤖 ModelScope
+We strongly advise users especially those in mainland China to use ModelScope. snapshot_download can help you solve issues concerning downloading checkpoints.
+
+```
+snapshot_download
+```
+
+### https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#more-usage-tips More Usage Tips
+For input images, we support local files, base64, and URLs. For videos, we currently only support local files.
+
+```
+# You can directly insert a local file path, a URL, or a base64-encoded image into the position where you want in the text. ## Local file path messages = [ { "role": "user", "content": [ {"type": "image", "image": "file:///path/to/your/image.jpg"}, {"type": "text", "text": "Describe this image."}, ], } ] ## Image URL messages = [ { "role": "user", "content": [ {"type": "image", "image": "http://path/to/your/image.jpg"}, {"type": "text", "text": "Describe this image."}, ], } ] ## Base64 encoded image messages = [ { "role": "user", "content": [ {"type": "image", "image": "data:image;base64,/9j/..."}, {"type": "text", "text": "Describe this image."}, ], } ]
+```
+
+
+```
+# You can directly insert a local file path, a URL, or a base64-encoded image into the position where you want in the text. ## Local file path messages = [ { "role": "user", "content": [ {"type": "image", "image": "file:///path/to/your/image.jpg"}, {"type": "text", "text": "Describe this image."}, ], } ] ## Image URL messages = [ { "role": "user", "content": [ {"type": "image", "image": "http://path/to/your/image.jpg"}, {"type": "text", "text": "Describe this image."}, ], } ] ## Base64 encoded image messages = [ { "role": "user", "content": [ {"type": "image", "image": "data:image;base64,/9j/..."}, {"type": "text", "text": "Describe this image."}, ], } ]
+```
+
+
+#### https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#image-resolution-for-performance-boost Image Resolution for performance boost
+The model supports a wide range of resolution inputs. By default, it uses the native resolution for input, but higher resolutions can enhance performance at the cost of more computation. Users can set the minimum and maximum number of pixels to achieve an optimal configuration for their needs, such as a token count range of 256-1280, to balance speed and memory usage.
+
+```
+min_pixels = 256 * 28 * 28 max_pixels = 1280 * 28 * 28 processor = AutoProcessor.from_pretrained( "Qwen/Qwen2.5-VL-3B-Instruct", min_pixels=min_pixels, max_pixels=max_pixels )
+```
+
+
+```
+min_pixels = 256 * 28 * 28 max_pixels = 1280 * 28 * 28 processor = AutoProcessor.from_pretrained( "Qwen/Qwen2.5-VL-3B-Instruct", min_pixels=min_pixels, max_pixels=max_pixels )
+```
+
+Besides, We provide two methods for fine-grained control over the image size input to the model:
+1. Define min_pixels and max_pixels: Images will be resized to maintain their aspect ratio within the range of min_pixels and max_pixels.
+
+2. Specify exact dimensions: Directly set resized_height and resized_width. These values will be rounded to the nearest multiple of 28.
+
+Define min_pixels and max_pixels: Images will be resized to maintain their aspect ratio within the range of min_pixels and max_pixels.
+Specify exact dimensions: Directly set resized_height and resized_width. These values will be rounded to the nearest multiple of 28.
+
+```
+resized_height
+```
+
+
+```
+resized_width
+```
+
+
+```
+# min_pixels and max_pixels messages = [ { "role": "user", "content": [ { "type": "image", "image": "file:///path/to/your/image.jpg", "resized_height": 280, "resized_width": 420, }, {"type": "text", "text": "Describe this image."}, ], } ] # resized_height and resized_width messages = [ { "role": "user", "content": [ { "type": "image", "image": "file:///path/to/your/image.jpg", "min_pixels": 50176, "max_pixels": 50176, }, {"type": "text", "text": "Describe this image."}, ], } ]
+```
+
+
+```
+# min_pixels and max_pixels messages = [ { "role": "user", "content": [ { "type": "image", "image": "file:///path/to/your/image.jpg", "resized_height": 280, "resized_width": 420, }, {"type": "text", "text": "Describe this image."}, ], } ] # resized_height and resized_width messages = [ { "role": "user", "content": [ { "type": "image", "image": "file:///path/to/your/image.jpg", "min_pixels": 50176, "max_pixels": 50176, }, {"type": "text", "text": "Describe this image."}, ], } ]
+```
+
+### https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#processing-long-texts Processing Long Texts
+
+The current config.json is set for context length up to 32,768 tokens. To handle extensive inputs exceeding 32,768 tokens, we utilize [YaRN](https://arxiv.org/abs/2309.00071), a technique for enhancing model length extrapolation, ensuring optimal performance on lengthy texts.
+
+```
+config.json
+```
+
+For supported frameworks, you could add the following to config.json to enable YaRN:
+
+```
+config.json
+```
+
+
+```
+{ ..., "type": "yarn", "mrope_section": [ 16, 24, 24 ], "factor": 4, "original_max_position_embeddings": 32768 }
+```
+
+
+```
+{ ..., "type": "yarn", "mrope_section": [ 16, 24, 24 ], "factor": 4, "original_max_position_embeddings": 32768 }
+```
+
+However, it should be noted that this method has a significant impact on the performance of temporal and spatial localization tasks, and is therefore not recommended for use.
+At the same time, for long video inputs, since MRoPE itself is more economical with ids, the max_position_embeddings can be directly modified to a larger value, such as 64k.
+
+## https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct#citation Citation
+If you find our work helpful, feel free to give us a cite.
+
+```
+@misc{qwen2.5-VL, title = {Qwen2.5-VL}, url = {https://qwenlm.github.io/blog/qwen2.5-vl/}, author = {Qwen Team}, month = {January}, year = {2025} } @article{Qwen2VL, title={Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution}, author={Wang, Peng and Bai, Shuai and Tan, Sinan and Wang, Shijie and Fan, Zhihao and Bai, Jinze and Chen, Keqin and Liu, Xuejing and Wang, Jialin and Ge, Wenbin and Fan, Yang and Dang, Kai and Du, Mengfei and Ren, Xuancheng and Men, Rui and Liu, Dayiheng and Zhou, Chang and Zhou, Jingren and Lin, Junyang}, journal={arXiv preprint arXiv:2409.12191}, year={2024} } @article{Qwen-VL, title={Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond}, author={Bai, Jinze and Bai, Shuai and Yang, Shusheng and Wang, Shijie and Tan, Sinan and Wang, Peng and Lin, Junyang and Zhou, Chang and Zhou, Jingren}, journal={arXiv preprint arXiv:2308.12966}, year={2023} }
+```
+
+
+```
+@misc{qwen2.5-VL, title = {Qwen2.5-VL}, url = {https://qwenlm.github.io/blog/qwen2.5-vl/}, author = {Qwen Team}, month = {January}, year = {2025} } @article{Qwen2VL, title={Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution}, author={Wang, Peng and Bai, Shuai and Tan, Sinan and Wang, Shijie and Fan, Zhihao and Bai, Jinze and Chen, Keqin and Liu, Xuejing and Wang, Jialin and Ge, Wenbin and Fan, Yang and Dang, Kai and Du, Mengfei and Ren, Xuancheng and Men, Rui and Liu, Dayiheng and Zhou, Chang and Zhou, Jingren and Lin, Junyang}, journal={arXiv preprint arXiv:2409.12191}, year={2024} } @article{Qwen-VL, title={Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond}, author={Bai, Jinze and Bai, Shuai and Yang, Shusheng and Wang, Shijie and Tan, Sinan and Wang, Peng and Lin, Junyang and Zhou, Chang and Zhou, Jingren}, journal={arXiv preprint arXiv:2308.12966}, year={2023} }
+```
+
+Chat template
+Files info
+[NEW](https://huggingface.co/docs/inference-providers)
+[Image-Text-to-Text](https://huggingface.co/tasks/image-text-to-text)
+[🙋 10 Ask for provider support](https://huggingface.co/spaces/huggingface/InferenceSupport/discussions/2358)
+
+## https://huggingface.co/docs/hub/model-cards#specifying-a-base-model Model tree for Qwen/Qwen2.5-VL-3B-Instruct
+[125 models](https://huggingface.co/models?other=base_model:adapter:Qwen/Qwen2.5-VL-3B-Instruct)
+[732 models](https://huggingface.co/models?other=base_model:finetune:Qwen/Qwen2.5-VL-3B-Instruct)
+[79 models](https://huggingface.co/models?other=base_model:quantized:Qwen/Qwen2.5-VL-3B-Instruct)
+
+## Spaces using Qwen/Qwen2.5-VL-3B-Instruct 100
+[🔥 alexnasa/Wan2.2-Animate-ZEROGPU](https://huggingface.co/spaces/alexnasa/Wan2.2-Animate-ZEROGPU)
+[🌍 OmniLottie/OmniLottie](https://huggingface.co/spaces/OmniLottie/OmniLottie)
+[⚡ jairwaal/image](https://huggingface.co/spaces/jairwaal/image)
+[🚀 alexnasa/Chain-of-Zoom](https://huggingface.co/spaces/alexnasa/Chain-of-Zoom)
+[🎥 multimodalart/self-forcing](https://huggingface.co/spaces/multimodalart/self-forcing)
+[🎙️ fffiloni/Meigen-MultiTalk](https://huggingface.co/spaces/fffiloni/Meigen-MultiTalk)
+[🔥 prithivMLmods/Qwen3-VL-Outpost](https://huggingface.co/spaces/prithivMLmods/Qwen3-VL-Outpost)
+[🚀 AgentFlow/agentflow](https://huggingface.co/spaces/AgentFlow/agentflow)
+
+## Collection including Qwen/Qwen2.5-VL-3B-Instruct
+[Qwen2.5-VL  Collection Vision-language model series based on Qwen2.5 • 10 items • Updated Mar 2 •  562](https://huggingface.co/collections/Qwen/qwen25-vl)
+
+#### Qwen2.5-VL
+
+## Papers for Qwen/Qwen2.5-VL-3B-Instruct
+[Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at
+  Any Resolution  Paper • 2409.12191 • Published Sep 18, 2024 •  79](https://huggingface.co/papers/2409.12191)
+
+#### Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution
+[YaRN: Efficient Context Window Extension of Large Language Models  Paper • 2309.00071 • Published Aug 31, 2023 •  83](https://huggingface.co/papers/2309.00071)
+
+#### YaRN: Efficient Context Window Extension of Large Language Models
+[Qwen-VL: A Frontier Large Vision-Language Model with Versatile Abilities  Paper • 2308.12966 • Published Aug 24, 2023 •  11](https://huggingface.co/papers/2308.12966)
+
+#### Qwen-VL: A Frontier Large Vision-Language Model with Versatile Abilities
+
+## https://huggingface.co/docs/hub/eval-results Evaluation results
+
+- Overall on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    16.1
+- Android Studio Macos on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    2.5
+- Autocad Windows on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    2.9
+- Blender Windows on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    21.1
+- Davinci Macos on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    11.4
+- Eviews Windows on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    62
+- Excel Macos on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    14.1
+- Fruitloops Windows on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    15.8
+- Illustrator Windows on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    0
+- Inventor Windows on [likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro) [View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48) [source](https://gui-agent.github.io/grounding-leaderboard/)  [leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)    1.4
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+
+## https://huggingface.co/docs/hub/eval-results Evaluation results
+
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+[likaixin/ScreenSpot-Pro](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro)
+[View evaluation results](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/discussions/48)
+[source](https://gui-agent.github.io/grounding-leaderboard/)
+[leaderboard](https://huggingface.co/datasets/likaixin/ScreenSpot-Pro?eval_result=Qwen/Qwen2.5-VL-3B-Instruct)
+[TOS](https://huggingface.co/terms-of-service)
+[Privacy](https://huggingface.co/privacy)
+[About](https://huggingface.co/huggingface)
+[Careers](https://apply.workable.com/huggingface/)
+[Models](https://huggingface.co/models)
+[Datasets](https://huggingface.co/datasets)
+[Spaces](https://huggingface.co/spaces)
+[Pricing](https://huggingface.co/pricing)
+[Docs](https://huggingface.co/docs)
