@@ -1,7 +1,7 @@
 import json
 import logging
 import asyncio
-from typing import Dict, Set
+from typing import Dict, Set, Optional
 from fastapi import WebSocket
 import redis.asyncio as aioredis
 from ..config import settings

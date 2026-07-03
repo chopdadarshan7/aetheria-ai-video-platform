@@ -2,7 +2,20 @@
 import { create } from 'zustand';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
-const WS_BASE_URL = API_BASE_URL.replace(/^http/, 'ws');
+
+// Safely derive WebSocket base URL:
+// - In the browser use window.location.protocol so https → wss automatically
+// - Falls back to the env-var scheme when running server-side (SSR/build)
+const WS_BASE_URL = (() => {
+  const url = process.env.NEXT_PUBLIC_WS_URL;
+  if (url) return url; // Explicit override takes priority
+  if (typeof window !== 'undefined') {
+    // Derive from API URL but use the page's own protocol (avoids mixed-content)
+    const wsScheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    return API_BASE_URL.replace(/^https?/, wsScheme);
+  }
+  return API_BASE_URL.replace(/^http/, 'ws'); // SSR fallback
+})();
 
 export interface User {
   id: number;
@@ -335,9 +348,13 @@ interface AppState {
 
   // WebSockets action
   initWebsocket: () => void;
+  closeWebsocket: () => void;
 }
 
 let socket: WebSocket | null = null;
+let shouldReconnect = false;                          // set false on logout to stop reconnect loop
+let heartbeatInterval: ReturnType<typeof setInterval> | null = null; // 30s ping timer
+
 
 export const useStore = create<AppState>((set, get) => {
   let initialToken = null;
@@ -384,10 +401,8 @@ export const useStore = create<AppState>((set, get) => {
 
     logout: () => {
       localStorage.removeItem('auth_token');
-      if (socket) {
-        socket.close();
-        socket = null;
-      }
+      // Close WebSocket cleanly — stops heartbeat and prevents reconnect loop
+      get().closeWebsocket();
       set({ token: null, user: null, projects: [], activeProject: null, assets: [], renders: [], storyboards: [], activeStoryboard: null, voices: [], subtitles: [], audioJobs: [], datasets: [], fineTuningJobs: [], teams: [], apiKeys: [], creditTransactions: [], wsConnected: false });
     },
 
@@ -1303,9 +1318,13 @@ export const useStore = create<AppState>((set, get) => {
       const { user, token } = get();
       if (!user || !token) return;
 
+      // Prevent duplicate connections
       if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
         return;
       }
+
+      // Signal that we want auto-reconnect
+      shouldReconnect = true;
 
       console.log(`Opening WebSockets channel for user ID: ${user.id}`);
       socket = new WebSocket(`${WS_BASE_URL}/renders/ws/${user.id}`);
@@ -1313,6 +1332,14 @@ export const useStore = create<AppState>((set, get) => {
       socket.onopen = () => {
         set({ wsConnected: true });
         console.log('WebSocket connection established.');
+
+        // Start heartbeat: send 'ping' every 30s to prevent NGINX/proxy timeout
+        if (heartbeatInterval) clearInterval(heartbeatInterval);
+        heartbeatInterval = setInterval(() => {
+          if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send('ping');
+          }
+        }, 30_000);
       };
 
       socket.onmessage = (event) => {
@@ -1408,7 +1435,7 @@ export const useStore = create<AppState>((set, get) => {
             return;
           }
 
-          // If standard job update
+          // Standard render job update
           set((state) => ({
             renders: state.renders.map(r => {
               if (r.id === job_id) {
@@ -1439,16 +1466,37 @@ export const useStore = create<AppState>((set, get) => {
         }
       };
 
-      socket.onclose = () => {
+      socket.onclose = (event) => {
         set({ wsConnected: false });
-        console.warn('WebSocket channel closed. Reconnecting in 5 seconds...');
-        setTimeout(() => get().initWebsocket(), 5000);
+        // Clear heartbeat timer
+        if (heartbeatInterval) { clearInterval(heartbeatInterval); heartbeatInterval = null; }
+
+        // Only auto-reconnect if the flag is still set (not a deliberate logout)
+        if (shouldReconnect) {
+          console.warn(`WebSocket closed (code ${event.code}). Reconnecting in 5s...`);
+          setTimeout(() => {
+            if (shouldReconnect) get().initWebsocket();
+          }, 5000);
+        } else {
+          console.log('WebSocket closed cleanly (logout).');
+        }
       };
 
       socket.onerror = (err) => {
         console.error('WebSocket connection error:', err);
-        if (socket) socket.close();
+        // onclose fires automatically after onerror — no manual close needed
       };
+    },
+
+    closeWebsocket: () => {
+      // Stop auto-reconnect and tear down socket + heartbeat cleanly
+      shouldReconnect = false;
+      if (heartbeatInterval) { clearInterval(heartbeatInterval); heartbeatInterval = null; }
+      if (socket) {
+        socket.close(1000, 'Deliberate logout');
+        socket = null;
+      }
+      set({ wsConnected: false });
     }
   };
 });
